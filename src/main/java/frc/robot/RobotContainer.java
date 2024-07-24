@@ -24,6 +24,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.arm.AmpArm;
+import frc.robot.subsystems.arm.pivot.ArmPivotIO;
+import frc.robot.subsystems.arm.pivot.ArmPivotIOSim;
+import frc.robot.subsystems.arm.rollers.ArmRollersIO;
+import frc.robot.subsystems.arm.rollers.ArmRollersIOSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -47,6 +52,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Flywheel flywheel;
+  private final AmpArm arm;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -69,6 +75,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3));
         flywheel = new Flywheel(new FlywheelIOSparkMax());
+        arm = new AmpArm(null, null);
         // drive = new Drive(
         // new GyroIOPigeon2(true),
         // new ModuleIOTalonFX(0),
@@ -88,6 +95,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         flywheel = new Flywheel(new FlywheelIOSim());
+        arm = new AmpArm(new ArmPivotIOSim(), new ArmRollersIOSim());
         break;
 
       default:
@@ -100,6 +108,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         flywheel = new Flywheel(new FlywheelIO() {});
+        arm = new AmpArm(new ArmPivotIO() {}, new ArmRollersIO() {});
         break;
     }
 
@@ -165,6 +174,12 @@ public class RobotContainer {
         .whileTrue(
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+
+    controller.x().onTrue(arm.rollers.setVoltage(1.0));
+    controller.x().onFalse(arm.rollers.setVoltage(0));
+
+    controller.y().onTrue(arm.pivot.setArmPositionTarget(Rotation2d.fromDegrees(100)));
+    controller.y().onFalse(arm.pivot.setArmPositionTarget(Rotation2d.fromDegrees(0)));
   }
 
   /**

@@ -7,11 +7,11 @@ import frc.robot.subsystems.arm.rollers.ArmRollers;
 import frc.robot.subsystems.arm.rollers.ArmRollersIO;
 
 public class AmpArm extends SubsystemBase {
-    public final ArmPivot pivot;
-    public final ArmRollers rollers;
+  public final ArmPivot pivot;
+  public final ArmRollers rollers;
 
-    public AmpArm(ArmPivotIO pivotIO, ArmRollersIO rollersIO) {
-        pivot = new ArmPivot(pivotIO);
-        rollers = new ArmRollers(rollersIO);
-    }
+  public AmpArm(ArmPivotIO pivotIO, ArmRollersIO rollersIO) {
+    pivot = new ArmPivot(pivotIO);
+    rollers = new ArmRollers(rollersIO);
+  }
 }
