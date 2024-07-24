@@ -34,6 +34,9 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.subsystems.transfer.Transfer;
+import frc.robot.subsystems.transfer.TransferIO;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -47,6 +50,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Flywheel flywheel;
+  private final Transfer transfer;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -76,6 +80,7 @@ public class RobotContainer {
         // new ModuleIOTalonFX(2),
         // new ModuleIOTalonFX(3));
         // flywheel = new Flywheel(new FlywheelIOTalonFX());
+        transfer = new Transfer(new TransferIO() {});
         break;
 
       case SIM:
@@ -88,6 +93,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         flywheel = new Flywheel(new FlywheelIOSim());
+        transfer = new Transfer(new TransferIO() {});
         break;
 
       default:
@@ -100,6 +106,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         flywheel = new Flywheel(new FlywheelIO() {});
+        transfer = new Transfer(new TransferIO() {});
         break;
     }
 
@@ -165,6 +172,11 @@ public class RobotContainer {
         .whileTrue(
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+
+
+    controller.y().and(transfer.noteSensor.negate()).onTrue(transfer.setVoltage(12));
+
+    transfer.noteSensor.onTrue(transfer.setVoltage(0));
   }
 
   /**
