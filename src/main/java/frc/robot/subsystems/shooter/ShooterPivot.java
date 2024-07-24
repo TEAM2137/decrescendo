@@ -17,6 +17,10 @@ public class ShooterPivot extends SubsystemBase {
     io.updateInputs(inputs);
   }
 
+  public Rotation2d getPosition() {
+    return inputs.absoluteEncoderPosition;
+  }
+
   public Command setVoltage(double volts) {
     return runOnce(() -> io.setVoltage(volts));
   }

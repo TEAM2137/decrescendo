@@ -28,6 +28,11 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     Logger.recordOutput("Shooter/UFlywheel/VelRadPerSec", upperFlywheel.getVelocityRadPerSec());
     Logger.recordOutput("Shooter/LFlywheel/VelRadPerSec", lowerFlywheel.getVelocityRadPerSec());
+
+    Logger.recordOutput("Shooter/UFlywheel/Setpoint", upperFlywheel.getSetpoint());
+    Logger.recordOutput("Shooter/LFlywheel/Setpoint", lowerFlywheel.getSetpoint());
+
+    Logger.recordOutput("Shooter/Pivot/Position", pivot.getPosition().getDegrees());
   }
 
   public Command aimAtDistance(double distanceMeters) {

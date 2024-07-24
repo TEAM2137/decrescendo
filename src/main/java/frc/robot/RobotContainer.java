@@ -186,6 +186,11 @@ public class RobotContainer {
         .rightBumper()
         .onTrue(shooter.upperFlywheel.setVelocity(40))
         .onFalse(shooter.upperFlywheel.setVelocity(0));
+
+    controller
+        .leftBumper()
+        .onTrue(shooter.pivot.setPositionTarget(Rotation2d.fromDegrees(30)))
+        .onFalse(shooter.pivot.setPositionTarget(Rotation2d.fromDegrees(0)));
   }
 
   /**

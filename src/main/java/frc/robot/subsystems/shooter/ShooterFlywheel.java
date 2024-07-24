@@ -33,6 +33,10 @@ public class ShooterFlywheel extends SubsystemBase {
         && pidEnabled;
   }
 
+  public double getSetpoint() {
+    return targetVelocityRadPerSec;
+  }
+
   public Trigger atSetpointTrigger() {
     return new Trigger(() -> atSetpoint());
   }
