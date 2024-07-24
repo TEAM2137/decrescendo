@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
   public final ShooterPivot pivot;
@@ -21,6 +22,12 @@ public class Shooter extends SubsystemBase {
 
     // Add lookup table values here using:
     // lookupTable.put(distanceMeters, angleRads);
+  }
+
+  @Override
+  public void periodic() {
+    Logger.recordOutput("Shooter/UFlywheel/VelRadPerSec", upperFlywheel.getVelocityRadPerSec());
+    Logger.recordOutput("Shooter/LFlywheel/VelRadPerSec", lowerFlywheel.getVelocityRadPerSec());
   }
 
   public Command aimAtDistance(double distanceMeters) {

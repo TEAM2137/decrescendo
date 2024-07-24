@@ -34,6 +34,11 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterFlywheelIO;
+import frc.robot.subsystems.shooter.ShooterFlywheelIOSim;
+import frc.robot.subsystems.shooter.ShooterPivotIO;
+import frc.robot.subsystems.shooter.ShooterPivotIOSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -47,6 +52,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Flywheel flywheel;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -76,6 +82,10 @@ public class RobotContainer {
         // new ModuleIOTalonFX(2),
         // new ModuleIOTalonFX(3));
         // flywheel = new Flywheel(new FlywheelIOTalonFX());
+
+        shooter =
+            new Shooter(
+                new ShooterPivotIO() {}, new ShooterFlywheelIO() {}, new ShooterFlywheelIO() {});
         break;
 
       case SIM:
@@ -88,6 +98,9 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         flywheel = new Flywheel(new FlywheelIOSim());
+        shooter =
+            new Shooter(
+                new ShooterPivotIOSim(), new ShooterFlywheelIOSim(), new ShooterFlywheelIOSim());
         break;
 
       default:
@@ -100,6 +113,9 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         flywheel = new Flywheel(new FlywheelIO() {});
+        shooter =
+            new Shooter(
+                new ShooterPivotIO() {}, new ShooterFlywheelIO() {}, new ShooterFlywheelIO() {});
         break;
     }
 
@@ -165,6 +181,11 @@ public class RobotContainer {
         .whileTrue(
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+
+    controller
+        .rightBumper()
+        .onTrue(shooter.upperFlywheel.setVelocity(40))
+        .onFalse(shooter.upperFlywheel.setVelocity(0));
   }
 
   /**

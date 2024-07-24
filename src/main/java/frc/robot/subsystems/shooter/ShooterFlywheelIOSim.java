@@ -25,6 +25,8 @@ public class ShooterFlywheelIOSim implements ShooterFlywheelIO {
       appliedVolts = pidEffort;
     }
 
+    flywheel.update(0.02);
+
     inputs.velocityRadPerSec = flywheel.getAngularVelocityRadPerSec();
     inputs.appliedVolts = appliedVolts;
     inputs.currentAmps = flywheel.getCurrentDrawAmps();
