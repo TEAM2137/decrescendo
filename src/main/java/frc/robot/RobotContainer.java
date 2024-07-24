@@ -36,7 +36,7 @@ import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
 import frc.robot.subsystems.transfer.Transfer;
 import frc.robot.subsystems.transfer.TransferIO;
-
+import frc.robot.subsystems.transfer.TransferIOSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -93,7 +93,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim());
         flywheel = new Flywheel(new FlywheelIOSim());
-        transfer = new Transfer(new TransferIO() {});
+        transfer = new Transfer(new TransferIOSim() {});
         break;
 
       default:
@@ -172,7 +172,6 @@ public class RobotContainer {
         .whileTrue(
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
-
 
     controller.y().and(transfer.noteSensor.negate()).onTrue(transfer.setVoltage(12));
 
