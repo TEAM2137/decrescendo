@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -148,6 +149,18 @@ public class RobotContainer {
         "Flywheel SysId (Dynamic Forward)", flywheel.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Flywheel SysId (Dynamic Reverse)", flywheel.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Shooter Flywheel SysId (Quasistatic Forward)",
+        shooter.flywheelSysIdQuasistatic(Direction.kForward));
+    autoChooser.addOption(
+        "Shooter Flywheel SysId (Quasistatic Reverse)",
+        shooter.flywheelSysIdQuasistatic(Direction.kReverse));
+    autoChooser.addOption(
+        "Shooter Flywheel SysId (Dynamic Forward)",
+        shooter.flywheelSysIdDynamic(Direction.kForward));
+    autoChooser.addOption(
+        "Shooter Flywheel SysId (Dynamic Reverse)",
+        shooter.flywheelSysIdDynamic(Direction.kReverse));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -184,8 +197,8 @@ public class RobotContainer {
 
     controller
         .rightBumper()
-        .onTrue(shooter.upperFlywheel.setVelocity(40))
-        .onFalse(shooter.upperFlywheel.setVelocity(0));
+        .onTrue(shooter.upperFlywheel.runVelocity(40))
+        .onFalse(shooter.upperFlywheel.runVelocity(0));
 
     controller
         .leftBumper()

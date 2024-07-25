@@ -6,13 +6,13 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 
 public class ShooterFlywheelIOSim implements ShooterFlywheelIO {
-  private FlywheelSim flywheel = new FlywheelSim(DCMotor.getKrakenX60(1), 2, 0.004);
+  private FlywheelSim flywheel = new FlywheelSim(DCMotor.getKrakenX60(1), 1.5, 0.004);
 
   private double appliedVolts;
   private double targetVelocityRadPerSec;
 
   private boolean pidEnabled;
-  private PIDController pid = new PIDController(2, 0, 0.2);
+  private PIDController pid = new PIDController(0.2, 0, 0);
 
   public ShooterFlywheelIOSim() {}
 

@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
@@ -17,8 +18,8 @@ public class Shooter extends SubsystemBase {
       ShooterFlywheelIO upperFlywheelIO,
       ShooterFlywheelIO lowerFlywheelIO) {
     pivot = new ShooterPivot(pivotIO);
-    upperFlywheel = new ShooterFlywheel(upperFlywheelIO);
-    lowerFlywheel = new ShooterFlywheel(lowerFlywheelIO);
+    upperFlywheel = new ShooterFlywheel(upperFlywheelIO, "UpperFlywheel");
+    lowerFlywheel = new ShooterFlywheel(lowerFlywheelIO, "LowerFlywheel");
 
     // Add lookup table values here using:
     // lookupTable.put(distanceMeters, angleRads);
@@ -26,19 +27,23 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Logger.recordOutput("Shooter/UFlywheel/VelRadPerSec", upperFlywheel.getVelocityRadPerSec());
-    Logger.recordOutput("Shooter/LFlywheel/VelRadPerSec", lowerFlywheel.getVelocityRadPerSec());
-
-    Logger.recordOutput("Shooter/UFlywheel/Setpoint", upperFlywheel.getSetpoint());
-    Logger.recordOutput("Shooter/LFlywheel/Setpoint", lowerFlywheel.getSetpoint());
-
     Logger.recordOutput("Shooter/Pivot/Position", pivot.getPosition().getDegrees());
   }
 
   public Command aimAtDistance(double distanceMeters) {
     return pivot
         .setPositionTarget(Rotation2d.fromRadians(lookupTable.get(distanceMeters)))
-        .andThen(upperFlywheel.setVelocity(300))
-        .andThen(lowerFlywheel.setVelocity(300));
+        .andThen(upperFlywheel.runVelocity(300))
+        .andThen(lowerFlywheel.runVelocity(300));
+  }
+
+  public Command flywheelSysIdQuasistatic(SysIdRoutine.Direction direction) {
+    return upperFlywheel
+        .sysIdQuasistatic(direction)
+        .alongWith(lowerFlywheel.sysIdQuasistatic(direction));
+  }
+
+  public Command flywheelSysIdDynamic(SysIdRoutine.Direction direction) {
+    return upperFlywheel.sysIdDynamic(direction).alongWith(lowerFlywheel.sysIdDynamic(direction));
   }
 }
