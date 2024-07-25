@@ -131,6 +131,7 @@ public class RobotContainer {
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
     autoChooser.addOption(
         "Flywheel SysId (Quasistatic Forward)",
         flywheel.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
@@ -141,6 +142,19 @@ public class RobotContainer {
         "Flywheel SysId (Dynamic Forward)", flywheel.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Flywheel SysId (Dynamic Reverse)", flywheel.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    autoChooser.addOption(
+        "Arm Rollers SysId (Quasistatic Forward)",
+        arm.rollers.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Arm Rollers SysId (Quasistatic Reverse)",
+        arm.rollers.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Arm Rollers SysId (Dynamic Forward)",
+        arm.rollers.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Arm Rollers SysId (Dynamic Reverse)",
+        arm.rollers.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -175,11 +189,13 @@ public class RobotContainer {
             Commands.startEnd(
                 () -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
 
-    controller.x().onTrue(arm.rollers.setVoltage(1.0));
-    controller.x().onFalse(arm.rollers.setVoltage(0));
+    controller.b().onTrue(arm.rollers.setVoltage(1.0));
+    controller.b().onFalse(arm.rollers.setVoltage(0));
 
     controller.y().onTrue(arm.pivot.setArmPositionTarget(Rotation2d.fromDegrees(100)));
     controller.y().onFalse(arm.pivot.setArmPositionTarget(Rotation2d.fromDegrees(0)));
+    controller.x().onTrue(arm.pivot.setWristPositionTarget(Rotation2d.fromDegrees(140)));
+    controller.x().onFalse(arm.pivot.setWristPositionTarget(Rotation2d.fromDegrees(0)));
   }
 
   /**

@@ -5,6 +5,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import org.littletonrobotics.junction.Logger;
 
@@ -31,11 +32,11 @@ public class ArmPivotIOSim implements ArmPivotIO {
           false,
           0);
 
-  private ArmFeedforward armFF = new ArmFeedforward(0.3, 0.2, 0);
+  private ArmFeedforward armFF = new ArmFeedforward(0.3, 0.15, 0);
   private ArmFeedforward wristFF = new ArmFeedforward(0.3, 0, 0);
 
-  private PIDController armPid = new PIDController(4, 0, 0);
-  private PIDController wristPid = new PIDController(4, 0, 0);
+  private PIDController armPid = new PIDController(5, 0, 0);
+  private PIDController wristPid = new PIDController(5, 0, 0);
 
   private boolean armPidActive;
   private boolean wristPidActive;
@@ -61,6 +62,11 @@ public class ArmPivotIOSim implements ArmPivotIO {
 
       wristAppliedVolts = ffEffort + pidEffort;
       wristSim.setInputVoltage(wristAppliedVolts);
+    }
+
+    if (DriverStation.isDisabled()) {
+      armAppliedVolts = 0;
+      wristAppliedVolts = 0;
     }
 
     armSim.update(0.02);
