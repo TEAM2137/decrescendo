@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
@@ -12,7 +13,8 @@ public class ShooterFlywheelIOSim implements ShooterFlywheelIO {
   private double targetVelocityRadPerSec;
 
   private boolean pidEnabled;
-  private PIDController pid = new PIDController(0.2, 0, 0);
+  private PIDController pid = new PIDController(0.037146, 0, 0);
+  private SimpleMotorFeedforward ff = new SimpleMotorFeedforward(-0.009476, .028492, .0045156);
 
   public ShooterFlywheelIOSim() {}
 
@@ -21,8 +23,10 @@ public class ShooterFlywheelIOSim implements ShooterFlywheelIO {
     if (pidEnabled) {
       double pidEffort =
           pid.calculate(flywheel.getAngularVelocityRadPerSec(), targetVelocityRadPerSec);
+      double ffEffort = ff.calculate(targetVelocityRadPerSec);
+      
+      appliedVolts = pidEffort + ffEffort;
       flywheel.setInput(pidEffort);
-      appliedVolts = pidEffort;
     }
 
     flywheel.update(0.02);
