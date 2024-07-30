@@ -197,7 +197,7 @@ public class RobotContainer {
 
     controller
         .rightBumper()
-        .onTrue(shooter.upperFlywheel.runVelocity(40))
+        .onTrue(shooter.upperFlywheel.runVelocity(400))
         .onFalse(shooter.upperFlywheel.runVelocity(0));
 
     controller
