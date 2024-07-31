@@ -20,4 +20,6 @@ public interface ShooterPivotIO {
   public default void setPositionTarget(Rotation2d target) {}
 
   public default void setBrakeMode(boolean brake) {}
+
+  public default void setPID(double kP, double kI, double kD) {}
 }

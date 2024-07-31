@@ -19,8 +19,8 @@ public class ShooterPivotIOSim implements ShooterPivotIO {
           true,
           0);
 
-  private ArmFeedforward ff = new ArmFeedforward(0.3, 1, 0);
-  private PIDController pid = new PIDController(3, 0, 0);
+  private ArmFeedforward ff = new ArmFeedforward(0.1, 0.5, 0);
+  private PIDController pid = new PIDController(35, 0, 0);
   private boolean pidEnabled;
 
   private double appliedVolts = 0;
@@ -58,5 +58,10 @@ public class ShooterPivotIOSim implements ShooterPivotIO {
   public void setPositionTarget(Rotation2d target) {
     this.target = target;
     pidEnabled = true;
+  }
+
+  @Override
+  public void setPID(double kP, double kI, double kD) {
+    pid.setPID(kP, kI, kD);
   }
 }

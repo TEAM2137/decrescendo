@@ -53,4 +53,9 @@ public class ShooterFlywheelIOSim implements ShooterFlywheelIO {
   public void setVelocityRPM(double velocityRPM) {
     setVelocityRadPerSec(Units.rotationsPerMinuteToRadiansPerSecond(velocityRPM));
   }
+  
+  @Override
+  public void setPID(double kP, double kI, double kD) {
+      pid.setPID(kP, kI, kD);
+  }
 }

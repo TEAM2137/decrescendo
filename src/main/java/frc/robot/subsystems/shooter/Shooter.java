@@ -5,7 +5,6 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import org.littletonrobotics.junction.Logger;
 
 public class Shooter extends SubsystemBase {
   public final ShooterPivot pivot;
@@ -26,9 +25,7 @@ public class Shooter extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    Logger.recordOutput("Shooter/Pivot/Position", pivot.getPosition().getDegrees());
-  }
+  public void periodic() {}
 
   public Command aimAtDistance(double distanceMeters) {
     return pivot
