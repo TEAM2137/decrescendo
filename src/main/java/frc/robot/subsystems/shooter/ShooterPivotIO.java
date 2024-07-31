@@ -22,4 +22,6 @@ public interface ShooterPivotIO {
   public default void setBrakeMode(boolean brake) {}
 
   public default void setPID(double kP, double kI, double kD) {}
+
+  public default void setFF(double kS, double kG, double kA) {}
 }

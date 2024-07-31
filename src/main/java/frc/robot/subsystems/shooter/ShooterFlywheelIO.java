@@ -19,4 +19,6 @@ public interface ShooterFlywheelIO {
   public default void setVelocityRPM(double velocityRPM) {}
 
   public default void setPID(double kP, double kI, double kD) {}
+
+  public default void setFF(double kS, double kV, double kA) {}
 }

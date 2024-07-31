@@ -64,4 +64,9 @@ public class ShooterPivotIOSim implements ShooterPivotIO {
   public void setPID(double kP, double kI, double kD) {
     pid.setPID(kP, kI, kD);
   }
+
+  @Override
+  public void setFF(double kS, double kG, double kA) {
+    ff = new ArmFeedforward(kS, kG, kA);
+  }
 }

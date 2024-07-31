@@ -58,4 +58,9 @@ public class ShooterFlywheelIOSim implements ShooterFlywheelIO {
   public void setPID(double kP, double kI, double kD) {
       pid.setPID(kP, kI, kD);
   }
+
+  @Override
+  public void setFF(double kS, double kV, double kA) {
+      ff = new SimpleMotorFeedforward(kS, kV, kA);
+  }
 }
